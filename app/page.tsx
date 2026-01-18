@@ -1,10 +1,10 @@
 
-const page = () => {
+const Page = () => {
   return (
-    <div>
+    <h1>
       Welcome to NextJS
-    </div>
+    </h1>
   )
 }
 
-export default page
+export default Page;
