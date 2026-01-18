@@ -10,7 +10,7 @@ const Page = () => {
 
       <ExploreBtn />
 
-      <div className="mt-20 space-y-7">
+      <div className="mt-10 space-y-2">
         <h3>Featured Events</h3>
 
         <ul className="events">
