@@ -1,3 +1,4 @@
+import BookEvent from "@/components/BookEvent";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -34,6 +35,8 @@ const EventTags = ({ tags }: { tags: string[] }) => {
         }
     </div>
 }
+
+const bookings = 10;
 
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     const { slug } = await params;
@@ -82,7 +85,18 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> 
 
                 {/* right side */}
                 <aside className="booking">
-                    <p className="text-lg font-semibold">Book Event</p>
+                    <div className="signup-card">
+                        <h2>Book Your Spot</h2>
+                        {
+                            bookings>0?(
+                                <p className="text-sm">Join {bookings} people who have already booked their spot!</p>
+                            ):(
+                                <p className="text-sm">Be ther first to book you spot</p>
+                            )
+                        }
+
+                        <BookEvent/>
+                    </div>
                 </aside>
             </div>
         </section>
