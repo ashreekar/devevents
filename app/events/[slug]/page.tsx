@@ -1,4 +1,7 @@
 import BookEvent from "@/components/BookEvent";
+import Eventcard from "@/components/Eventcard";
+import { IEvent } from "@/database/event.model";
+import { getSimilarEventsSlug } from "@/lib/actions/event.actions";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -36,8 +39,6 @@ const EventTags = ({ tags }: { tags: string[] }) => {
     </div>
 }
 
-const bookings = 10;
-
 const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     const { slug } = await params;
 
@@ -46,6 +47,9 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> 
     const { description, image, overview, date, time, location, mode, agenda, audience, organizer, tags } = event;
 
     if (!event) return notFound();
+
+    const bookings = 10;
+    const similarEvents: IEvent[] = await getSimilarEventsSlug(slug);
 
     return (
         <section id='event'>
@@ -88,16 +92,28 @@ const EventDetailsPage = async ({ params }: { params: Promise<{ slug: string }> 
                     <div className="signup-card">
                         <h2>Book Your Spot</h2>
                         {
-                            bookings>0?(
+                            bookings > 0 ? (
                                 <p className="text-sm">Join {bookings} people who have already booked their spot!</p>
-                            ):(
+                            ) : (
                                 <p className="text-sm">Be ther first to book you spot</p>
                             )
                         }
 
-                        <BookEvent/>
+                        <BookEvent />
                     </div>
                 </aside>
+            </div>
+
+            <div className="flex w-full flex-col gap-4 pt-20">
+                <h2>Similar Events</h2>
+
+                <div className="events">
+                        {
+                            similarEvents.length>0 && similarEvents.map((event:IEvent)=>(
+                                <Eventcard key={event.slug} {...event} />
+                            ))
+                        }
+                </div>
             </div>
         </section>
     )
